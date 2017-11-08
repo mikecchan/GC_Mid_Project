@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class TextFile {
 	public String item;
@@ -18,7 +19,6 @@ public class TextFile {
 	
 	public TextFile(String item) {
 		this.item = item;
-		
 	}
 
 	public String getItem() {
@@ -29,9 +29,10 @@ public class TextFile {
 		this.item = item;
 	}
 	
-	public static void readFromFile() {
+	public static ArrayList<Item> readFromFile() {
 		Path writeFile = Paths.get("Item.txt");
 		File file = writeFile.toFile();
+		ArrayList<Item> itemList = new ArrayList<Item>();
 
 		try {
 			FileReader fr = new FileReader(file);
@@ -45,13 +46,17 @@ public class TextFile {
 			String line = reader.readLine();
 			while (line != null) {
 				System.out.println(line);
+				
 				line = reader.readLine();
+				String[] stringArray= line.split(",");
+				Item item = new Item(stringArray[0], stringArray[1],Integer.parseInt(stringArray[2]),stringArray[3] );
+				itemList.add(item);
 			}
 			reader.close();
 		} catch (IOException e) {
 			System.out.println("There were no items!");
 		}
-
+		return itemList;
 	}
 	
 	public static String fileAsString () {
