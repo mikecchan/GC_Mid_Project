@@ -3,9 +3,9 @@ public class Item {
 	String name;
 	String desc;
 	int qty;
-	String price;
+	double price;
 	
-	public Item(String name, String desc, int qty, String price) {
+	public Item(String name, String desc, int qty, double price) {
 		this.name = name;
 		this.desc = desc;
 		this.qty = qty;
@@ -36,11 +36,16 @@ public class Item {
 		this.qty = qty;
 	}
 
-	public String getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	public void setPrice(String price) {
+	public void setPrice(double price) {
 		this.price = price;
+	}
+	
+	@Override
+	public String toString() {
+		return (name + desc + qty + price);
 	}
 }
