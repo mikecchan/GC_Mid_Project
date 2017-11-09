@@ -30,7 +30,7 @@ public class TextFile {
 	}
 	
 	public static ArrayList<Item> readFromFile() {
-		Path writeFile = Paths.get("Item.txt");
+		Path writeFile = Paths.get("list.txt");
 		File file = writeFile.toFile();
 		ArrayList<Item> itemList = new ArrayList<Item>();
 
@@ -42,14 +42,11 @@ public class TextFile {
 
 			BufferedReader reader = new BufferedReader(fr);
 			// this is attempting to read the first line from the text document
+			String line = "";
+			while ((line = reader.readLine()) != null) {
 
-			String line = reader.readLine();
-			while (line != null) {
-				System.out.println(line);
-				
-				line = reader.readLine();
 				String[] stringArray= line.split(",");
-				Item item = new Item(stringArray[0], stringArray[1],Integer.parseInt(stringArray[2]),stringArray[3] );
+				Item item = new Item(Integer.parseInt(stringArray[0]), stringArray[1], stringArray[2],Integer.parseInt(stringArray[3]),Double.parseDouble(stringArray[4]) );
 				itemList.add(item);
 			}
 			reader.close();
