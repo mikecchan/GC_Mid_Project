@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 
 public class Item {
 	String name;
@@ -56,6 +57,11 @@ public class Item {
 	
 	@Override
 	public String toString() {
-		return (name + "  " + desc + "  " + qty + "  " + price);
+		return String.format("%-12s%-12s%-6d%-12s", name, desc, qty, formatPrice(price));
+	}
+	
+public static String formatPrice(double price) {	
+		DecimalFormat format1 = new DecimalFormat("$0.00");
+		return format1.format(price);
 	}
 }

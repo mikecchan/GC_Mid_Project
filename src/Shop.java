@@ -26,7 +26,7 @@ public class Shop {
 		System.out.println((inventorySize + 2) + ". Quit");
 
 		int selection = getItem(sc, inventory);
-		System.out.println(inventory.get(selection - 1));
+		
 
 		if (selection == inventorySize + 1) {
 			inventory = Checkout.checkout(sc, inventory, cart);
@@ -34,15 +34,24 @@ public class Shop {
 
 		else if (selection <= inventorySize) {
 			int userQty = getQty(selection, sc, inventory);
-
+			System.out.println(inventory.get(selection - 1));
 			String addToCart = Validator.getChoice(sc, "Do you want to add to cart? (y/n): ", "yn");
 			if (addToCart.equalsIgnoreCase("n")) {
 				viewInventory(sc, inventory, cart);
 			}
 
 			else {
+				/*
 				Item tempItem = inventory.get(selection-1);
-				tempItem.qty = userQty;
+				tempItem.sqty = userQty;
+				cart.add(tempItem);
+				*/
+				Item tempItem = new Item(inventory.get(selection-1).getId(),
+										inventory.get(selection-1).getName(),
+										inventory.get(selection-1).getDesc(), 
+										userQty,
+										inventory.get(selection-1).getPrice());
+				
 				cart.add(tempItem);
 
 				String goToCheckout = Validator.getChoice(sc, "Do you want to select another item? (y/n): ", "yn");

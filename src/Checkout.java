@@ -29,7 +29,7 @@ public class Checkout {
 		int choice = 0;
 		String paymentType = null;
 		
-		choice = Validator.getInt(sc, "Please select a payment by the following integers... \n 1) Cash \n 2) Credit Card \n 3) Check\n", 1, 3);
+		choice = Validator.getInt(sc, "Please select a payment by the following integers... \n 1) Cash \n 2) Credit Card \n 3) Check\n ", 1, 3);
 		
 		switch (choice) {
 			case 1: Cash(grandtotal, sc);
@@ -42,7 +42,6 @@ public class Checkout {
 					paymentType = "Check";
 					break;
 		}
-		
 		return paymentType;
 	}
 	
@@ -107,8 +106,10 @@ public class Checkout {
 			for (int j = 0; j < Inventory.size(); j++) {
 				
 				if (Cart.get(i).getId() == Inventory.get(j).getId()) {
+					System.out.println("Inventory before: " +  Inventory.get(j));
 					int QtyUpdate = Inventory.get(j).getQty() - Cart.get(i).getQty();
 					Inventory.get(j).setQty(QtyUpdate);
+					System.out.println("Inventory updated: " +  Inventory.get(j));
 				}
 				
 			}
