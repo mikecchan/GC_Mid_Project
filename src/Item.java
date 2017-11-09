@@ -4,12 +4,22 @@ public class Item {
 	String desc;
 	int qty;
 	double price;
+	int id;
 	
-	public Item(String name, String desc, int qty, double price) {
+	public Item(int id, String name, String desc, int qty, double price) {
 		this.name = name;
 		this.desc = desc;
 		this.qty = qty;
 		this.price = price;
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -46,6 +56,6 @@ public class Item {
 	
 	@Override
 	public String toString() {
-		return (name + desc + qty + price);
+		return (id + name + desc + qty + price);
 	}
 }
