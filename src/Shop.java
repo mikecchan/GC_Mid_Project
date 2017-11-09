@@ -38,7 +38,7 @@ public class Shop {
 				viewInventory( sc, inventory, cart);
 			}
 			else {
-				Checkout.main([], sc, inventory, cart);
+			//	Checkout.checkout(sc, inventory, cart);
 			}
 			
 		}
