@@ -13,7 +13,7 @@ public class Shop {
 		this.inventory = inventory;
 	}
 
-	public static void viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
+	public static ArrayList<Item> viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
 
 		int inventorySize = inventory.size();
 
@@ -26,9 +26,10 @@ public class Shop {
 		System.out.println((inventorySize + 2) + ". Quit");
 
 		int selection = getItem(sc, inventory);
+		System.out.println(inventory.get(selection - 1));
 
 		if (selection == inventorySize + 1) {
-			// Checkout.checkout(sc, inventory, cart);
+			inventory = Checkout.checkout(sc, inventory, cart);
 		} 
 
 		else if (selection <= inventorySize) {
@@ -40,7 +41,7 @@ public class Shop {
 			}
 
 			else {
-				Item tempItem = inventory.get(selection);
+				Item tempItem = inventory.get(selection-1);
 				tempItem.qty = userQty;
 				cart.add(tempItem);
 
@@ -48,7 +49,7 @@ public class Shop {
 				if (goToCheckout.equalsIgnoreCase("y")) {
 					viewInventory(sc, inventory, cart);
 				} else {
-					// Checkout.checkout(sc, inventory, cart);
+					inventory = Checkout.checkout(sc, inventory, cart);
 				}
 
 			}
@@ -56,6 +57,7 @@ public class Shop {
 		else if (selection == inventorySize + 2) {
 			System.out.println("Thank you for shopping with us! Have a great day!");
 		}
+		return inventory;
 
 	}
 

@@ -29,7 +29,7 @@ public class Checkout {
 		int choice = 0;
 		String paymentType = null;
 		
-		choice = Validator.getInt(sc, "Please select a payment by the following integers... /n 1) Cash /n 2) Credit Card /n 3) Check", 1, 3);
+		choice = Validator.getInt(sc, "Please select a payment by the following integers... \n 1) Cash \n 2) Credit Card \n 3) Check\n", 1, 3);
 		
 		switch (choice) {
 			case 1: Cash(grandtotal, sc);
@@ -95,7 +95,7 @@ public class Checkout {
 	public static double getSubtotal(ArrayList<Item> Cart) {
 		double subtotal = 0;
 		for(int i=0; i < Cart.size(); i++ ) {
-			subtotal = subtotal + Cart.get(5).getPrice();
+			subtotal = subtotal + Cart.get(i).getPrice() * Cart.get(i).getQty();
 		}
 		return subtotal;
 	}
