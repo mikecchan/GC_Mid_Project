@@ -1,10 +1,18 @@
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Shop {
 
+	/*
+	 * This is the Shop Class.
+	 * The Shop Class allows users to view inventory, add items to cart, update cart, and checkout.
+	 * This class is mainly ran under the shopping() method and will return back to the original class with the updated inventory.
+	 * First it goes into the viewInventory() method to let users options which items to add to cart or to have them actually
+	 * view the cart, checkout, or terminate program.
+	 * 
+	 */
 	public static ArrayList<Item> shopping(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart, ArrayList<Item> Orginalinventory) {
-		
 		int inventorySize = inventory.size();
 		int selection = viewInventory(sc, inventory, cart);
 
@@ -56,22 +64,24 @@ public class Shop {
 	}
 
 	
-	
+	//Method to view what's currently in the cart.
 	public static void viewCart(ArrayList<Item> Cart) {
+		DecimalFormat df = new DecimalFormat("0.00");
 		System.out.println("/n                   Your Shopping Cart                    ");
 		System.out.println("ID  Item      Category    Description Qty    Price    total");
 		System.out.println("==  ====      ========    =========== ===    =====    =====");
 		for(int i=0; i < Cart.size(); i++ ) {
-			System.out.println((i+1) + "  " + Cart.get(i) + "  " + (Cart.get(i).getPrice() * Cart.get(i).getQty()) +"");
+			System.out.println((i+1) + "  " + Cart.get(i) + "  " + Double.valueOf(df.format(Cart.get(i).getPrice() * Cart.get(i).getQty())) +"");
 		}
 	}
 	
-	
+	//Method to return back what item (by the index number) he wants to add to cart.
 	public static int getItem(Scanner sc, ArrayList<Item> inventory) {
 		int userInput = Validator.getInt(sc, "Please select an item by ID number: ", 1, inventory.size() + 3);
 		return userInput;
 	}
 
+	//Method to return back the quantity of the selected item.
 	public static int getQty(int selection, Scanner sc, ArrayList<Item> inventory) {
 		int userInput = 0;
 		if (inventory.get(selection-1).getQty() != 0) {
@@ -84,6 +94,7 @@ public class Shop {
 		return userInput;
 	}
 	
+	//Method to view inventory and allow users option to select what item to add to cart.
 	public static int viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
 		System.out.println("\n                 Inventory Shelf                ");
 		System.out.println("ID Item        Category    Description Qty   Price");
@@ -100,6 +111,8 @@ public class Shop {
 		return selection;
 	}
 	
+	//Method to add item to cart and update inventory to reflect that that item has been moved from inventory
+	//to cart.
 	public static ArrayList<Item> addToCart(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart, int selection, int userQty){
 		
 		inventory = removeFromInventory(inventory, userQty, selection);
@@ -124,22 +137,8 @@ public class Shop {
 	
 		return cart;
 	}
-	
-	public static ArrayList<Item> updateInventory(ArrayList<Item> Inventory, ArrayList<Item> Cart){
-		
-		for (int i = 0; i < Cart.size(); i++) {
-			
-			for (int j = 0; j < Inventory.size(); j++) {
-				
-				if (Cart.get(i).getId() == Inventory.get(j).getId()) {
-					int QtyUpdate = Inventory.get(j).getQty() - Cart.get(i).getQty();
-					Inventory.get(j).setQty(QtyUpdate);
-				}
-			}
-		}
-		return Inventory;
-	}
 
+	//Method to check that the quantity of the item the user wants, is less than or greater than what is in inventory.
 	public static boolean checkQty(int selection, int userQty, ArrayList<Item> inventory, ArrayList<Item> cart) {
 		boolean qtyOk = true;
 		
@@ -156,16 +155,8 @@ public class Shop {
 		return qtyOk;
 	}
 	
+	//Method to update quantity to reflect that that item has been added to cart or have been purchased.
 	public static ArrayList<Item> removeFromInventory(ArrayList<Item> inventory, int userQty, int selection){
-		for (int i = 0; i < inventory.size(); i++) {
-			if (inventory.get(i).getId() == selection) {
-				int updatedQty = inventory.get(i).getQty() - userQty;
-					inventory.get(i).setQty(updatedQty);
-			}
-		}
-		return inventory;
-	}
-	public static ArrayList<Item> addToInventory(ArrayList<Item> inventory, int userQty, int selection){
 		for (int i = 0; i < inventory.size(); i++) {
 			if (inventory.get(i).getId() == selection) {
 				int updatedQty = inventory.get(i).getQty() - userQty;

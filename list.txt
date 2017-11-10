@@ -3,3 +3,10 @@
 3,Banana,Fruit,Yellow,20,1.00
 4,Tomato,Fruit,Red,20,1.00
 5,Squash,Vegetable,Red,20,1.00
+6,Steak,Meat,From cow,20,100.00
+7,Chicken,Meat,A kind of bird,20,1.00
+8,Pork,Meat,slaughtered from Babe,20,1.00
+9,Fish,Meat,swimming animal,20,1.00
+10,Bread,Wheat,baked from yeast,20,1.00
+11,Noodle,Wheat,spagehetti,20,1.00
+12,Rice,Wheat,Chinese food,20,1.00

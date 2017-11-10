@@ -29,6 +29,8 @@ public class TextFile {
 		this.item = item;
 	}
 	
+	//This method allows users to take in each line in the text file as strings, stores them as objects of
+	// class: Item, then puts them into an arraylist.
 	public static ArrayList<Item> readFromFile() {
 		
 		Path writeFile = Paths.get("list.txt");
