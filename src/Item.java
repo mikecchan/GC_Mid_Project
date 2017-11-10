@@ -67,7 +67,7 @@ public class Item{
 	
 	@Override
 	public String toString() {
-		return String.format("%-12s%-12s%-12s%-6d%-6s", name, cat, desc, qty, formatPrice(price));
+		return String.format("%-12s%-14.10s%-18.16s%-8d%-6s", name, cat, desc, qty, formatPrice(price));
 	}
 	
 public static String formatPrice(double price) {	

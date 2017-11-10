@@ -44,7 +44,10 @@ public class Shop {
 		}
 		else if (selection == inventorySize + 1) {
 			viewCart(cart);
+			System.out.println();
+
 			String decide = Validator.getChoice(sc, "Would you like to clear cart? (y/n)", "yn");
+			
 			if (decide.equalsIgnoreCase("y")) {
 				cart.clear();
 				for (int i = 0 ; i < inventory.size(); i++) {
@@ -67,11 +70,18 @@ public class Shop {
 	//Method to view what's currently in the cart.
 	public static void viewCart(ArrayList<Item> Cart) {
 		DecimalFormat df = new DecimalFormat("0.00");
-		System.out.println("/n                   Your Shopping Cart                    ");
-		System.out.println("ID  Item      Category    Description Qty    Price    total");
-		System.out.println("==  ====      ========    =========== ===    =====    =====");
+		System.out.println("\n                   Your Shopping Cart                    ");
+		System.out.println("ID  Item        Category      Description       Qty     Price    total");
+		System.out.println("==  ====        ========      ===========       ===     =====    =====");
+		
+		if (Cart.size() == 0) {
+			System.out.println();
+			System.out.println("Cart is empty.");
+		}
 		for(int i=0; i < Cart.size(); i++ ) {
-			System.out.println((i+1) + "  " + Cart.get(i) + "  " + Double.valueOf(df.format(Cart.get(i).getPrice() * Cart.get(i).getQty())) +"");
+			System.out.printf("%-4s%-14s", (i + 1) , Cart.get(i));
+			
+			System.out.println( "  " + Double.valueOf(df.format(Cart.get(i).getPrice() * Cart.get(i).getQty())) +"");
 		}
 	}
 	
@@ -97,10 +107,11 @@ public class Shop {
 	//Method to view inventory and allow users option to select what item to add to cart.
 	public static int viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
 		System.out.println("\n                 Inventory Shelf                ");
-		System.out.println("ID Item        Category    Description Qty   Price");
-		System.out.println("== ====        ========    =========== ===   =====");
+		System.out.println("ID  Item        Category      Description       Qty     Price");
+		System.out.println("==  ====        ========      ===========       ===     =====");
 		for (int i = 0; i < inventory.size(); i++) {
-			System.out.println(i + 1 + ". " + inventory.get(i));
+			System.out.printf("%-4s%-14s", (i + 1) , inventory.get(i));
+			System.out.println();
 		}
 		System.out.println((inventory.size() + 1) + ". View Cart");
 		System.out.println((inventory.size() + 2) + ". Checkout");

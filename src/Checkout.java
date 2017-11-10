@@ -54,7 +54,7 @@ public class Checkout {
 	 * Method if user selects cash.
 	 */
 	public static void Cash(double grandtotal, Scanner sc) {
-		double amount = Validator.getDouble(sc, "Please enter amount of cash to deposit");
+		double amount = Validator.getDouble(sc, "Please enter amount of cash to deposit: ");
 		if (amount < grandtotal) {
 			System.out.println("Insufficient, please try again");
 			Cash(grandtotal, sc);
