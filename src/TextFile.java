@@ -47,7 +47,7 @@ public class TextFile {
 			while ((line = reader.readLine()) != null) {
 
 				String[] stringArray= line.split(",");
-				Item item = new Item(Integer.parseInt(stringArray[0]), stringArray[1], stringArray[2],Integer.parseInt(stringArray[3]),Double.parseDouble(stringArray[4]) );
+				Item item = new Item(Integer.parseInt(stringArray[0]), stringArray[1], stringArray[2],stringArray[3],Integer.parseInt(stringArray[4]),Double.parseDouble(stringArray[5]) );
 				itemList.add(item);
 			}
 			reader.close();

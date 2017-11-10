@@ -8,12 +8,21 @@ public class Item extends Inventory {
 	int qty;
 	int id;
 	
-	public Item(int id, String name, String desc, int qty, double price) {
+	public Item(int id, String name, String cat, String desc, int qty, double price) {
 		this.name = name;
 		this.desc = desc;
 		this.qty = qty;
 		this.price = price;
 		this.id = id;
+		this.cat = cat;
+	}
+
+	public String getCat() {
+		return cat;
+	}
+
+	public void setCat(String cat) {
+		this.cat = cat;
 	}
 
 	public int getId() {
@@ -58,7 +67,7 @@ public class Item extends Inventory {
 	
 	@Override
 	public String toString() {
-		return String.format("%-12s%-12s%-6d%-12s", name, desc, qty, formatPrice(price));
+		return String.format("%-12s%-12s%-12s%-6d%-12s", name, cat, desc, qty, formatPrice(price));
 	}
 	
 public static String formatPrice(double price) {	

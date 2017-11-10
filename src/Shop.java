@@ -105,7 +105,7 @@ public class Shop {
 		inventory = removeFromInventory(inventory, userQty, selection);
 			
 		Item tempItem = new Item(inventory.get(selection-1).getId(),
-								inventory.get(selection-1).getName(),
+								inventory.get(selection-1).getName(), inventory.get(selection-1).getCat(),
 								inventory.get(selection-1).getDesc(), 
 								userQty,
 								inventory.get(selection-1).getPrice());

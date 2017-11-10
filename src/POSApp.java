@@ -26,6 +26,7 @@ public class POSApp {
 		for(int i = 0; i < inventory.size(); i++) {
 			Item item = new Item(	inventory.get(i).getId(),
 									inventory.get(i).getName(),
+									inventory.get(i).getCat(),
 									inventory.get(i).getDesc(), 
 									inventory.get(i).getQty(),
 									inventory.get(i).getPrice()

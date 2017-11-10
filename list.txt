@@ -1,5 +1,5 @@
-1,Apple,Red,20,100.00
-2,Grape,Red,20,1.00
-3,Banana,Yellow,20,1.00
-4,Tomato,Red,20,1.00
-5,Squash,Red,20,1.00
+1,Apple,Fruit,Red,20,100.00
+2,Grape,Fruit,Red,20,1.00
+3,Banana,Fruit,Yellow,20,1.00
+4,Tomato,Fruit,Red,20,1.00
+5,Squash,Vegetable,Red,20,1.00
