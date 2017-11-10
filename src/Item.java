@@ -1,6 +1,6 @@
 import java.text.DecimalFormat;
 
-public class Item extends Inventory {
+public class Item{
 	String name;
 	String desc;
 	double price;

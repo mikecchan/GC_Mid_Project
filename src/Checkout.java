@@ -68,8 +68,8 @@ public class Checkout {
 	}
 	
 	public static void viewOrder(ArrayList<Item> Cart, double subtotal, double salestax, double grandtotal) {
-		System.out.println("ID  Item      Desc         Qty    Price    total");
-		System.out.println("==  ====      ====         ===    =====    =====");
+		System.out.println("ID  Item      Category    Description Qty    Price    total");
+		System.out.println("==  ====      ========    =========== ===    =====    =====");
 		for(int i=0; i < Cart.size(); i++ ) {
 			System.out.println((i+1) + "  " + Cart.get(i) + "  $" + (Cart.get(i).getPrice() * Cart.get(i).getQty()) +"");
 		}
