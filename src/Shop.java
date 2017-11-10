@@ -87,8 +87,8 @@ public class Shop {
 	}
 	
 	public static int viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
-		System.out.println("ID  Item      Desc         Qty    Price");
-		System.out.println("==  ====      ====         ===    =====");
+		System.out.println("ID Item        Category    Description Qty   Price");
+		System.out.println("== ====        ========    =========== ===   =====");
 		for (int i = 0; i < inventory.size(); i++) {
 			System.out.println(i + 1 + ". " + inventory.get(i));
 		}
@@ -106,7 +106,7 @@ public class Shop {
 		inventory = removeFromInventory(inventory, userQty, selection);
 			
 		Item tempItem = new Item(inventory.get(selection-1).getId(),
-								inventory.get(selection-1).getName(),
+								inventory.get(selection-1).getName(), inventory.get(selection-1).getCat(),
 								inventory.get(selection-1).getDesc(), 
 								userQty,
 								inventory.get(selection-1).getPrice());
