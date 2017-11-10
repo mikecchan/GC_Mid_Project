@@ -9,7 +9,7 @@ public class Checkout {
 		double grandtotal = subtotal + salestax;
 		
 		System.out.println("\nYOU ARE READY TO CHECKOUT...\n");
-		
+		System.out.println("Your Shopping Cart");
 		viewOrder(Cart, subtotal, salestax, grandtotal);
 		
 		String paymentType = paymentMethod(grandtotal, sc);
@@ -45,21 +45,12 @@ public class Checkout {
 	public static void Cash(double grandtotal, Scanner sc) {
 		double amount = Validator.getDouble(sc, "Please enter amount of cash to deposit");
 		if (amount < grandtotal) {
-			/*
-			int nextoption = Validator.getInt(sc,"Insufficient, please enter '1' to try again, or '0' to change payment method", 0, 1);
-			if (nextoption == 0) {
-				paymentMethod(grandtotal, sc);
-			}
-			else {
-				Cash(grandtotal, sc);
-			}
-			*/
 			System.out.println("Insufficient, please try again");
 			Cash(grandtotal, sc);
 		}
 		else {
 			double change = amount - grandtotal;
-			System.out.println("Thank you, your change is " + change);
+			System.out.println("Thank you, your change is $" + change);
 		}
 	}
 	
@@ -77,16 +68,15 @@ public class Checkout {
 	}
 	
 	public static void viewOrder(ArrayList<Item> Cart, double subtotal, double salestax, double grandtotal) {
-		System.out.println("Your Shopping Cart");
 		System.out.println("ID  Item      Desc         Qty    Price    total");
 		System.out.println("==  ====      ====         ===    =====    =====");
 		for(int i=0; i < Cart.size(); i++ ) {
-			System.out.println((i+1) + "  " + Cart.get(i) + "  " + (Cart.get(i).getPrice() * Cart.get(i).getQty()) +"");
+			System.out.println((i+1) + "  " + Cart.get(i) + "  $" + (Cart.get(i).getPrice() * Cart.get(i).getQty()) +"");
 		}
 		System.out.println("");
-		System.out.println("Subtotal: " + subtotal);
-		System.out.println("Sales Tax: " + salestax);
-		System.out.println("Grand total: " + grandtotal);
+		System.out.println("Subtotal: $" + subtotal);
+		System.out.println("Sales Tax: $" + salestax);
+		System.out.println("Grand total: $" + grandtotal);
 	}
 	
 	public static double getSubtotal(ArrayList<Item> Cart) {
