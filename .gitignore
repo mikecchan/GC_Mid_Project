@@ -19,3 +19,4 @@ target/
 
 #hibernate
 hibernate.cfg.xml
+/bin/

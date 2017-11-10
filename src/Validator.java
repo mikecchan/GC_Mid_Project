@@ -125,4 +125,22 @@ public class Validator {
 		}
 		return d;
 	}
+	
+	public static boolean doAgain(Scanner sc, String prompt) {
+		String cont = null;
+		boolean decision = false;
+		cont = Validator.getString(sc, prompt);
+		
+		if (cont.equalsIgnoreCase("y") || cont.equalsIgnoreCase("yes")){
+			decision = true;
+		}
+		else if (cont.equalsIgnoreCase("n") || cont.equalsIgnoreCase("no"))  {
+			decision = false;
+		}
+		else {
+			System.out.println("Please enter either 'y', 'yes', 'n', or 'no'");
+			doAgain(sc, prompt);
+		}
+		return decision;
+	}
 }

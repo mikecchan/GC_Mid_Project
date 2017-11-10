@@ -3,85 +3,185 @@ import java.util.Scanner;
 
 public class Shop {
 
-	ArrayList<Item> inventory;
-
-	public Shop() {
-
-	}
-
-	public Shop(ArrayList<Item> inventory) {
-		this.inventory = inventory;
-	}
-
-	public static ArrayList<Item> viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
-
-		int inventorySize = inventory.size();
-
-		System.out.println("ID  Item      Desc         Qty    Price");
-		System.out.println("==  ====      ====         ===    =====");
-		for (int i = 0; i < inventorySize; i++) {
-			System.out.println(inventory.get(i));
-		}
-		System.out.println((inventorySize + 1) + ". View Cart");
-		System.out.println((inventorySize + 2) + ". Quit");
-
-		int selection = getItem(sc, inventory);
+	public static ArrayList<Item> shopping(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
+		//ArrayList<Item> originalInventory = new ArrayList<Item>();
+		//originalInventory = inventory;
 		
+		int inventorySize = inventory.size();
+		int selection = viewInventory(sc, inventory, cart);
 
-		if (selection == inventorySize + 1) {
-			inventory = Checkout.checkout(sc, inventory, cart);
-		} 
-
-		else if (selection <= inventorySize) {
+		if (selection <= inventorySize) {
 			int userQty = getQty(selection, sc, inventory);
-			System.out.println(inventory.get(selection - 1));
-			String addToCart = Validator.getChoice(sc, "Do you want to add to cart? (y/n): ", "yn");
-			if (addToCart.equalsIgnoreCase("n")) {
-				viewInventory(sc, inventory, cart);
-			}
-
-			else {
-				/*
-				Item tempItem = inventory.get(selection-1);
-				tempItem.sqty = userQty;
-				cart.add(tempItem);
-				*/
-				Item tempItem = new Item(inventory.get(selection-1).getId(),
-										inventory.get(selection-1).getName(),
-										inventory.get(selection-1).getDesc(), 
-										userQty,
-										inventory.get(selection-1).getPrice());
-				
-				cart.add(tempItem);
-
-				String goToCheckout = Validator.getChoice(sc, "Do you want to select another item? (y/n): ", "yn");
-				if (goToCheckout.equalsIgnoreCase("y")) {
-					viewInventory(sc, inventory, cart);
-				} else {
-					inventory = Checkout.checkout(sc, inventory, cart);
+			if (userQty != 0) {
+				boolean QTYok = checkQty(selection, userQty, inventory, cart);
+				if (QTYok) {
+					System.out.println(	userQty + " " +
+							inventory.get(selection - 1).getName() + "s for " +
+							Item.formatPrice((inventory.get(selection - 1).getPrice() * userQty)) + "...");
+					String addToCart = Validator.getChoice(sc, "Do you want to add " + inventory.get(selection - 1).getName() + " to cart? (y/n): ", "yn");
+		
+					if (addToCart.equalsIgnoreCase("n")) {
+						shopping(sc, inventory, cart);
+					}
+					else {
+						cart = addToCart(sc, inventory, cart, selection, userQty);
+						selectAnother(sc, inventory, cart);
+					}
 				}
-
+				else {
+					System.out.println("Error!  Please choose inventory quantity of " + 
+							inventory.get(selection-1).getQty() +
+							" or less");
+				}
+			}
+			else {
+				shopping(sc, inventory, cart);
 			}
 		}
+		else if (selection == inventorySize + 1) {
+			viewCart(cart);
+			String decide = Validator.getChoice(sc, "Would you like to clear cart? (y/n)", "yn");
+			if (decide.equalsIgnoreCase("y")) {
+				cart.clear();
+				inventory.clear();
+				inventory = TextFile.readFromFile();
+			}
+			shopping(sc, inventory, cart);
+		} 
 		else if (selection == inventorySize + 2) {
+			Checkout.checkout(sc, cart);
+		}
+		else if (selection == inventorySize + 3) {
 			System.out.println("Thank you for shopping with us! Have a great day!");
 		}
 		return inventory;
-
 	}
 
+	
+	
+	public static void viewCart(ArrayList<Item> Cart) {
+		System.out.println("Your Shopping Cart");
+		System.out.println("ID  Item      Desc         Qty    Price    total");
+		System.out.println("==  ====      ====         ===    =====    =====");
+		for(int i=0; i < Cart.size(); i++ ) {
+			System.out.println((i+1) + "  " + Cart.get(i) + "  " + (Cart.get(i).getPrice() * Cart.get(i).getQty()) +"");
+		}
+	}
+	
+	
 	public static int getItem(Scanner sc, ArrayList<Item> inventory) {
-
-		int userInput = Validator.getInt(sc, "What would you like: ", 1, inventory.size() + 2);
-
+		int userInput = Validator.getInt(sc, "What would you like: ", 1, inventory.size() + 3);
 		return userInput;
 	}
 
 	public static int getQty(int selection, Scanner sc, ArrayList<Item> inventory) {
-
-		int userInput = Validator.getInt(sc, "How much do you want: ", 1,
-				inventory.get(selection - 1).getQty());
+		int userInput = 0;
+		if (inventory.get(selection-1).getQty() != 0) {
+			userInput = Validator.getInt(sc, "How many " + inventory.get(selection - 1).getName() + "s do you want? ", 0,
+					inventory.get(selection - 1).getQty());
+		}
+		else {
+			System.out.println("There are no more " + inventory.get(selection-1).getName() + "s.");
+		}
 		return userInput;
 	}
+	
+	public static int viewInventory(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
+		System.out.println("ID  Item      Desc         Qty    Price");
+		System.out.println("==  ====      ====         ===    =====");
+		for (int i = 0; i < inventory.size(); i++) {
+			System.out.println(i + 1 + ". " + inventory.get(i));
+		}
+		System.out.println((inventory.size() + 1) + ". View Cart");
+		System.out.println((inventory.size() + 2) + ". Checkout");
+		System.out.println((inventory.size() + 3) + ". Quit");
 
+		int selection = getItem(sc, inventory);
+		
+		return selection;
+	}
+	
+	public static ArrayList<Item> addToCart(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart, int selection, int userQty){
+		
+		inventory = removeFromInventory(inventory, userQty, selection);
+			
+		Item tempItem = new Item(inventory.get(selection-1).getId(),
+								inventory.get(selection-1).getName(),
+								inventory.get(selection-1).getDesc(), 
+								userQty,
+								inventory.get(selection-1).getPrice());
+		
+		boolean found = false;
+		for (int i = 0; i < cart.size(); i++) {
+			if (cart.get(i).getId() == tempItem.getId()) {
+				int updateQty = cart.get(i).getQty() + tempItem.getQty();
+				cart.get(i).setQty(updateQty);
+				found = true;
+			}
+		}
+		if (!found) {
+			cart.add(tempItem);
+		}
+	
+		return cart;
+	}
+	
+	public static ArrayList<Item> updateInventory(ArrayList<Item> Inventory, ArrayList<Item> Cart){
+		
+		for (int i = 0; i < Cart.size(); i++) {
+			
+			for (int j = 0; j < Inventory.size(); j++) {
+				
+				if (Cart.get(i).getId() == Inventory.get(j).getId()) {
+					int QtyUpdate = Inventory.get(j).getQty() - Cart.get(i).getQty();
+					Inventory.get(j).setQty(QtyUpdate);
+				}
+			}
+		}
+		return Inventory;
+	}
+
+	public static boolean checkQty(int selection, int userQty, ArrayList<Item> inventory, ArrayList<Item> cart) {
+		boolean qtyOk = true;
+		
+		for (int i = 0; i < cart.size(); i++) {
+			if (cart.get(i).getId() == selection) {
+				if (cart.get(i).getQty() + userQty > inventory.get(selection-1).getQty() ) {
+					qtyOk = false;
+					}
+				else {
+					qtyOk = true;
+				}
+			}
+		}
+		return qtyOk;
+	}
+	
+	public static ArrayList<Item> removeFromInventory(ArrayList<Item> inventory, int userQty, int selection){
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i).getId() == selection) {
+				int updatedQty = inventory.get(i).getQty() - userQty;
+					inventory.get(i).setQty(updatedQty);
+			}
+		}
+		return inventory;
+	}
+	public static ArrayList<Item> addToInventory(ArrayList<Item> inventory, int userQty, int selection){
+		for (int i = 0; i < inventory.size(); i++) {
+			if (inventory.get(i).getId() == selection) {
+				int updatedQty = inventory.get(i).getQty() - userQty;
+					inventory.get(i).setQty(updatedQty);
+			}
+		}
+		return inventory;
+	}
+	
+	public static void selectAnother(Scanner sc, ArrayList<Item> inventory, ArrayList<Item> cart) {
+		String goToCheckout = Validator.getChoice(sc, "Do you want to select another item? (y/n): ", "yn");
+		if (goToCheckout.equalsIgnoreCase("y")) {
+			shopping(sc, inventory, cart);
+		} else {
+			Checkout.checkout(sc, cart);
+		}
+	}
 }

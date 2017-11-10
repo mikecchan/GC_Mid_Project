@@ -30,6 +30,7 @@ public class TextFile {
 	}
 	
 	public static ArrayList<Item> readFromFile() {
+		
 		Path writeFile = Paths.get("list.txt");
 		File file = writeFile.toFile();
 		ArrayList<Item> itemList = new ArrayList<Item>();

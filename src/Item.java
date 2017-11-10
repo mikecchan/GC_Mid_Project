@@ -1,10 +1,11 @@
 import java.text.DecimalFormat;
 
-public class Item {
+public class Item extends Inventory {
 	String name;
 	String desc;
-	int qty;
 	double price;
+	String cat;
+	int qty;
 	int id;
 	
 	public Item(int id, String name, String desc, int qty, double price) {

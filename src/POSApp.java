@@ -7,11 +7,13 @@ public class POSApp {
 		Scanner scnr = new Scanner(System.in);
 		ArrayList<Item> inventory = TextFile.readFromFile();
 		ArrayList<Item> cart = new ArrayList<Item>();
-
+		
+		System.out.println("Welcome to our Pretended Grand Circus Grocery Market");
+		
 		String choice = "y";
 		while (choice.equalsIgnoreCase("y")) {
 			cart.clear();
-			inventory = Shop.viewInventory(scnr, inventory, cart);
+			inventory = Shop.shopping(scnr, inventory, cart);
 			choice = Validator.getChoice(scnr, "Would you like to make another order? (y/n): ", "yn");
 
 		}

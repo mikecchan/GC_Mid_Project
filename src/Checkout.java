@@ -3,23 +3,20 @@ import java.util.Scanner;
 
 public class Checkout {
 
-	public static ArrayList<Item> checkout(Scanner sc, ArrayList<Item> Inventory, ArrayList<Item> Cart) {
-		
+	public static void checkout(Scanner sc, ArrayList<Item> Cart) {
 		double subtotal = getSubtotal(Cart);
 		double salestax = (subtotal * 0.06);
 		double grandtotal = subtotal + salestax;
+		
+		System.out.println("\nYOU ARE READY TO CHECKOUT...\n");
 		
 		viewOrder(Cart, subtotal, salestax, grandtotal);
 		
 		String paymentType = paymentMethod(grandtotal, sc);
 		
-		System.out.println("Thank you, here is your receipt...");
+		System.out.println("\nThank you, here is your receipt...\n");
 		viewOrder(Cart, subtotal, salestax, grandtotal);
 		System.out.println("Payment type: " + paymentType);
-		
-		Inventory = updateInventory(Inventory, Cart);
-		
-		return Inventory;
 				
 	}
 	
@@ -80,6 +77,7 @@ public class Checkout {
 	}
 	
 	public static void viewOrder(ArrayList<Item> Cart, double subtotal, double salestax, double grandtotal) {
+		System.out.println("Your Shopping Cart");
 		System.out.println("ID  Item      Desc         Qty    Price    total");
 		System.out.println("==  ====      ====         ===    =====    =====");
 		for(int i=0; i < Cart.size(); i++ ) {
@@ -97,24 +95,5 @@ public class Checkout {
 			subtotal = subtotal + Cart.get(i).getPrice() * Cart.get(i).getQty();
 		}
 		return subtotal;
-	}
-	
-	public static ArrayList<Item> updateInventory(ArrayList<Item> Inventory, ArrayList<Item> Cart){
-		
-		for (int i = 0; i < Cart.size(); i++) {
-			
-			for (int j = 0; j < Inventory.size(); j++) {
-				
-				if (Cart.get(i).getId() == Inventory.get(j).getId()) {
-					System.out.println("Inventory before: " +  Inventory.get(j));
-					int QtyUpdate = Inventory.get(j).getQty() - Cart.get(i).getQty();
-					Inventory.get(j).setQty(QtyUpdate);
-					System.out.println("Inventory updated: " +  Inventory.get(j));
-				}
-				
-			}
-		}
-		
-		return Inventory;
 	}
 }
